@@ -33,12 +33,6 @@ def SelectNofRounds():
             print(f"To Win the Match You have to Win {NoofRoundsuserneedtowin} Rounds")
             break
 
-def checkvalidmove():
-    pass
-
-def decidewinner():
-    pass
-
 def Player1Input_X():
     while True:
         pos = input("Enter Position you want to insert 'X' (1 - 9): ")
@@ -85,9 +79,59 @@ def Player2Input_O():
         else:
             print("Position is already Occupied!, Choose coorect position.")
 
-player1Dine = 0
-player2Dine = 0
-
+        
+def checkroundwinner():
+    # Horizantal Checking
+    if TicTacToeGrid[0][0][0] == TicTacToeGrid[0][1][0] == TicTacToeGrid[0][2][0]:
+        if TicTacToeGrid[0][0][0] is "X":
+            print(f"The Winner of the match is : {PlayerNames[0]}")
+        else:
+             print(f"The Winner of the match is : {PlayerNames[1]}")
+    
+    elif TicTacToeGrid[1][0][0] == TicTacToeGrid[1][1][0] == TicTacToeGrid[1][2][0]:
+        if TicTacToeGrid[1][0][0] is "X":
+            print(f"The Winner of the match is : {PlayerNames[0]}")
+        else:
+             print(f"The Winner of the match is : {PlayerNames[1]}")
+    
+    elif TicTacToeGrid[2][0][0] == TicTacToeGrid[2][1][0] == TicTacToeGrid[2][2][0]:
+        if TicTacToeGrid[0][0][0] is "X":
+            print(f"The Winner of the match is : {PlayerNames[0]}")
+        else:
+            print(f"The Winner of the match is : {PlayerNames[1]}")
+    # Vertical Checking
+    elif TicTacToeGrid[0][0][0] == TicTacToeGrid[1][0][0] == TicTacToeGrid[2][0][0]:
+        if TicTacToeGrid[0][0][0] is "X":
+            print(f"The Winner of the match is : {PlayerNames[0]}")
+        else:
+             print(f"The Winner of the match is : {PlayerNames[1]}")
+             
+    elif TicTacToeGrid[0][1][0] == TicTacToeGrid[1][1][0] == TicTacToeGrid[2][1][0]:
+        if TicTacToeGrid[0][0][0] is "X":
+            print(f"The Winner of the match is : {PlayerNames[0]}")
+        else:
+             print(f"The Winner of the match is : {PlayerNames[1]}")
+             
+    elif TicTacToeGrid[0][2][0] == TicTacToeGrid[1][2][0] == TicTacToeGrid[2][2][0]:
+        if TicTacToeGrid[0][0][0] is "X":
+            print(f"The Winner of the match is : {PlayerNames[0]}")
+        else:
+             print(f"The Winner of the match is : {PlayerNames[1]}")
+             
+    #Diagonal Checking
+    elif TicTacToeGrid[0][0][0] == TicTacToeGrid[1][1][0] == TicTacToeGrid[2][2][0]:
+        if TicTacToeGrid[0][0][0] is "X":
+            print(f"The Winner of the match is : {PlayerNames[0]}")
+        else:
+             print(f"The Winner of the match is : {PlayerNames[1]}")
+             
+    elif TicTacToeGrid[0][2][0] == TicTacToeGrid[1][1][0] == TicTacToeGrid[2][0][0]:
+        if TicTacToeGrid[0][0][0] is "X":
+            print(f"The Winner of the match is : {PlayerNames[0]}")
+        else:
+             print(f"The Winner of the match is : {PlayerNames[1]}")
+    
+    
 def StartGame():
     set_player_names()
     SelectNofRounds()
