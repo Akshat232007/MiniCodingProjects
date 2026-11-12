@@ -1,3 +1,5 @@
+import random
+
 Pieces = {
     "wR": "♜",  
     "wN": "♞",  
@@ -13,8 +15,8 @@ Pieces = {
     "bK": "♔",  
     "bP": "♙", 
     
-    "1" : 1,
-    "0" : 0 
+    1 : 1,
+    0: 0 
 }
 
 ChessGrid = [
@@ -28,10 +30,27 @@ ChessGrid = [
     [["wR"], ["wN"], ["wB"], ["wQ"], ["wK"], ["wB"], ["wN"], ["wR"]],
 ]
 
+PlayerNames = []
+Colors = []
+CurrentPlayerSide = None
 
+def getPlayername():
+    PlayerNames.clear()
+
+    Player1Name = input("Enter player 1 Name: ").strip()
+    while not Player1Name:
+        Player1Name = input("Player 1 name cannot be empty: ").strip()
+
+    Player2Name = input("Enter player 2 Name: ").strip()
+    while not Player2Name or Player2Name == Player1Name:
+        Player2Name = input("Enter a different player 2 name: ").strip()
+
+    PlayerNames.append(Player1Name)
+    PlayerNames.append(Player2Name)
+    
 def DisplayGrid():
-    print("White Pieces: ♜ Rook | ♞ Knight | ♝ Bishop | ♛ Queen | ♚ King | ♟ Pawn")
-    print("Black Pieces: ♖ Rook | ♘ Knight | ♗ Bishop | ♕ Queen | ♔ King | ♙ Pawn")
+    print("White Pieces: ♜ Rook | ♞ Knight | ♝ Bishop | ♛ Queen | ♚ King | ♟ Pawn | 1 : White Block")
+    print("Black Pieces: ♖ Rook | ♘ Knight | ♗ Bishop | ♕ Queen | ♔ King | ♙ Pawn | 0 : Black Block")
     print()
 
     print("   " + "".join(f"{chr(i):^7}" for i in range(ord("A"), ord("I"))))
@@ -41,7 +60,7 @@ def DisplayGrid():
         print(f"{i + 1} |", end="")
 
         for cell in ChessGrid[i]:
-            print(f"{Pieces[str(cell[0])]:^6}|", end="")
+            print(f"{Pieces[cell[0]]:^6}|", end="")
 
         print()
 
@@ -64,16 +83,23 @@ def resetchessgrid():
     [["wP"], ["wP"], ["wP"], ["wP"], ["wP"], ["wP"], ["wP"], ["wP"]],
     [["wR"], ["wN"], ["wB"], ["wQ"], ["wK"], ["wB"], ["wN"], ["wR"]],
     ]
-    
-    
-    DisplayGrid()
-    
 
 
 def StartGame():
-    DisplayGrid()
+    global CurrentPlayerSide
+    getPlayername()
     resetchessgrid()
-    pass
+
+    Colors.clear()
+    Colors.extend([1, 0])
+    random.shuffle(Colors)
+
+    print("\nPlayer Color Assignment:")
+    print(f"{PlayerNames[0]} : {'White' if Colors[0] == 1 else 'Black'}")
+    print(f"{PlayerNames[1]} : {'White' if Colors[1] == 1 else 'Black'}")
+
+    CurrentPlayerSide = 1
+    
 
 if __name__ == "__main__":
     while True:
