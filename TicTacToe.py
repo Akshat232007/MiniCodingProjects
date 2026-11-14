@@ -1,3 +1,5 @@
+import os
+
 
 TicTacToeGrid = [
     [[1], [2], [3]],
@@ -23,6 +25,7 @@ def reset_grid():
 
 
 def display_grid():
+    os.system("cls")
     print()
     for i in range(len(TicTacToeGrid)):
         print(" | ".join(str(cell[0]) for cell in TicTacToeGrid[i]))
