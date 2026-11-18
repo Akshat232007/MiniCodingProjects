@@ -2,43 +2,38 @@ import random
 import os
 
 class ChessRules:
-    def WPawnRule(row,col):
-        global ChessGrid
-        
-        if ChessGrid[row][col] == "wP":
+
+    @staticmethod
+    def WPawnRule(row, col):
+        if ChessGrid[row][col][0] == "wP":
             pass
-        
-    def WRookRule(row,col):
-        global ChessGrid
-        
-        if ChessGrid[row][col] == "wR":
+
+    @staticmethod
+    def WRookRule(row, col):
+        if ChessGrid[row][col][0] == "wR":
             pass
-        
-    def WKnightRule(row,col):
-        global ChessGrid
-        
-        if ChessGrid[row][col] == "wN":
+
+    @staticmethod
+    def WKnightRule(row, col):
+        if ChessGrid[row][col][0] == "wN":
             pass
-        
-    def WBishopRule(row,col):
-        global ChessGrid
-        
-        if ChessGrid[row][col] == "wB":
+
+    @staticmethod
+    def WBishopRule(row, col):
+        if ChessGrid[row][col][0] == "wB":
             pass
-        
-    def WQuenRule(row,col):
-        global ChessGrid
-        
-        if ChessGrid[row,col] == "wQ":
+
+    @staticmethod
+    def WQuenRule(row, col):
+        if ChessGrid[row][col][0] == "wQ":
             pass
-        
+
+    @staticmethod
     def WKingRule(row, col):
-        global ChessGrid
-        
-        if ChessGrid[row,col] == "wK":
+        if ChessGrid[row][col][0] == "wK":
             pass
-        
-    
+
+
 Pieces = {
     "wR": "♜",
     "wN": "♞",
@@ -58,6 +53,7 @@ Pieces = {
     0: 0
 }
 
+
 ChessGrid = [
     [["bR"], ["bN"], ["bB"], ["bQ"], ["bK"], ["bB"], ["bN"], ["bR"]],
     [["bP"], ["bP"], ["bP"], ["bP"], ["bP"], ["bP"], ["bP"], ["bP"]],
@@ -69,17 +65,11 @@ ChessGrid = [
     [["wR"], ["wN"], ["wB"], ["wQ"], ["wK"], ["wB"], ["wN"], ["wR"]],
 ]
 
-col = {
-      
-}
-
-
 
 PlayerNames = []
 Players = {}
 CurrentPlayerSide = None
-checkmate = None
-
+checkmate = False
 
 
 def getPlayername():
@@ -99,6 +89,7 @@ def getPlayername():
 
 def DisplayGrid():
     os.system("cls")
+
     print("White Pieces: ♜ Rook | ♞ Knight | ♝ Bishop | ♛ Queen | ♚ King | ♟ Pawn | 1 : White Block")
     print("Black Pieces: ♖ Rook | ♘ Knight | ♗ Bishop | ♕ Queen | ♔ King | ♙ Pawn | 0 : Black Block")
     print()
@@ -135,43 +126,74 @@ def resetchessgrid():
         [["wR"], ["wN"], ["wB"], ["wQ"], ["wK"], ["wB"], ["wN"], ["wR"]],
     ]
 
+
 def WhitePlayerDine():
     global ChessGrid
 
-    while CurrentPlayerSide == 1:
-        row, col = map(input("Enter Your Piece Selection (Ex : A 8, space is needed!) : ").split())
-            
-        col = int(col)
-        row = ascii(row) - 64
-        
-        if ChessGrid[row][col] not in ("wP", "wR", "wN", "wB", "wQ", "wK"):
-            print("Wrong Piece Selected!, Choose White Pieces Only!")
-        else:
-            
-            
-            
-            pass
+    while True:
+        try:
+            DisplayGrid()
+
+            selection = input("Enter Your Piece Selection (Ex: A 8): ").upper().split()
+
+            if len(selection) != 2:
+                print("Enter column and row separated by space!")
+                continue
+
+            col = ord(selection[0]) - 65
+            row = int(selection[1]) - 1
+
+            if not (0 <= row < 8 and 0 <= col < 8):
+                print("Invalid coordinates!")
+                continue
+
+            if ChessGrid[row][col][0] not in (
+                "wP", "wR", "wN", "wB", "wQ", "wK"
+            ):
+                print("Wrong Piece Selected! Choose White Pieces Only!")
+                input("Press Enter to continue...")
+                continue
+
+            return row, col
+
+        except ValueError:
+            print("Invalid input! Enter something like A 8.")
+
 
 def BlackPlayerDine():
     global ChessGrid
 
-    while CurrentPlayerSide == 0:
-        row, col = map(input("Enter Your Piece Selection (Ex : A 8, space is needed!) : ").split())
-            
-        col = int(col)
-        row = ascii(row) - 64
-        
-        if ChessGrid[row][col] not in ("bP", "bR", "bN", "bB", "bQ", "bK"):
-            print("Wrong Piece Selected!, Choose Black Pieces Only!")
-        else:
-            
-            
-            
-            
-            pass
-    
-    
-     
+    while True:
+        try:
+            DisplayGrid()
+
+            selection = input(
+                "Enter Your Piece Selection (Ex: A 1): "
+            ).upper().split()
+
+            if len(selection) != 2:
+                print("Enter column and row separated by space!")
+                continue
+
+            col = ord(selection[0]) - 65
+            row = int(selection[1]) - 1
+
+            if not (0 <= row < 8 and 0 <= col < 8):
+                print("Invalid coordinates!")
+                continue
+
+            if ChessGrid[row][col][0] not in (
+                "bP", "bR", "bN", "bB", "bQ", "bK"
+            ):
+                print("Wrong Piece Selected! Choose Black Pieces Only!")
+                input("Press Enter to continue...")
+                continue
+
+            return row, col
+
+        except ValueError:
+            print("Invalid input! Enter something like A 1.")
+
 
 def StartGame():
     global CurrentPlayerSide, checkmate
@@ -180,9 +202,6 @@ def StartGame():
     resetchessgrid()
 
     Players.clear()
-
-    Players[PlayerNames[0]] = None
-    Players[PlayerNames[1]] = None
 
     Colors = [1, 0]
     random.shuffle(Colors)
@@ -198,18 +217,22 @@ def StartGame():
     CurrentPlayerSide = 1
 
     print("\nWhite plays first!")
-    
-    checkmate = False
-    while not checkmate:
+    input("Press Enter to start...")
 
+    checkmate = False
+
+    while not checkmate:
         for name, color in Players.items():
             if color == CurrentPlayerSide:
                 print(f"\n{name}, it's your turn!")
                 if color == 1:
-                    WhitePlayerDine()
+                    row, col = WhitePlayerDine()
                 else:
-                    BlackPlayerDine()
-            break
+                    row, col = BlackPlayerDine()
+                print(f"Selected piece: {Pieces[ChessGrid[row][col][0]]}")
+                
+                CurrentPlayerSide = 1 - CurrentPlayerSide
+                break
 
 
 if __name__ == "__main__":
