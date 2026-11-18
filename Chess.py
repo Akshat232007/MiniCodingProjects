@@ -127,37 +127,35 @@ def resetchessgrid():
     ]
 
 
+
 def WhitePlayerDine():
     global ChessGrid
-
     while True:
         try:
-            DisplayGrid()
-
             selection = input("Enter Your Piece Selection (Ex: A 8): ").upper().split()
 
             if len(selection) != 2:
-                print("Enter column and row separated by space!")
+                print("Invalid input! Enter column and row.")
                 continue
 
             col = ord(selection[0]) - 65
             row = int(selection[1]) - 1
 
             if not (0 <= row < 8 and 0 <= col < 8):
-                print("Invalid coordinates!")
+                print("Invalid coordinates! Choose A-H and 1-8.")
                 continue
 
             if ChessGrid[row][col][0] not in (
                 "wP", "wR", "wN", "wB", "wQ", "wK"
             ):
                 print("Wrong Piece Selected! Choose White Pieces Only!")
-                input("Press Enter to continue...")
                 continue
 
             return row, col
 
         except ValueError:
-            print("Invalid input! Enter something like A 8.")
+            print("Invalid input! Example: A 8")
+
 
 
 def BlackPlayerDine():
@@ -165,34 +163,29 @@ def BlackPlayerDine():
 
     while True:
         try:
-            DisplayGrid()
-
-            selection = input(
-                "Enter Your Piece Selection (Ex: A 1): "
-            ).upper().split()
-
+            selection = input("Enter Your Piece Selection (Ex: A 1): ").upper().split()
             if len(selection) != 2:
-                print("Enter column and row separated by space!")
+                print("Invalid input! Enter column and row.")
                 continue
 
             col = ord(selection[0]) - 65
             row = int(selection[1]) - 1
 
             if not (0 <= row < 8 and 0 <= col < 8):
-                print("Invalid coordinates!")
+                print("Invalid coordinates! Choose A-H and 1-8.")
                 continue
 
             if ChessGrid[row][col][0] not in (
                 "bP", "bR", "bN", "bB", "bQ", "bK"
             ):
                 print("Wrong Piece Selected! Choose Black Pieces Only!")
-                input("Press Enter to continue...")
                 continue
 
             return row, col
 
         except ValueError:
-            print("Invalid input! Enter something like A 1.")
+            print("Invalid input! Example: A 1")
+
 
 
 def StartGame():
@@ -200,7 +193,6 @@ def StartGame():
 
     getPlayername()
     resetchessgrid()
-
     Players.clear()
 
     Colors = [1, 0]
@@ -210,14 +202,12 @@ def StartGame():
     Players[PlayerNames[1]] = Colors[1]
 
     print("\nPlayer Color Assignment:")
-
     for name, color in Players.items():
         print(f"{name} : {'White' if color == 1 else 'Black'}")
 
     CurrentPlayerSide = 1
 
-    print("\nWhite plays first!")
-    input("Press Enter to start...")
+    print("\nWhite plays first!")    
 
     checkmate = False
 
@@ -225,12 +215,12 @@ def StartGame():
         for name, color in Players.items():
             if color == CurrentPlayerSide:
                 print(f"\n{name}, it's your turn!")
+                DisplayGrid()
                 if color == 1:
                     row, col = WhitePlayerDine()
                 else:
                     row, col = BlackPlayerDine()
-                print(f"Selected piece: {Pieces[ChessGrid[row][col][0]]}")
-                
+                print(f"\nSelected Piece: "f"{Pieces[ChessGrid[row][col][0]]}")
                 CurrentPlayerSide = 1 - CurrentPlayerSide
                 break
 
